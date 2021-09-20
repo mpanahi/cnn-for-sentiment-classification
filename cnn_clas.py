@@ -19,8 +19,7 @@ from keras.layers.convolutional import Conv1D,Conv2D
 from keras.layers.convolutional import MaxPooling1D,MaxPooling2D
 
 max_features = 20000
-# max_features = 2000000000000000000000000
-# maxlen = 80  # cut texts after this number of words (among top max_features most common words)
+
 maxlen = 21683
 batch_size = 32
 # from theano import function
@@ -75,25 +74,18 @@ print("features")
 print(vectorizer.get_feature_names()[2])
 z=test_vectors
 sh = []
-# test_vectors = vectorizer.transform(test)
-# validation_vectors = vectorizer.transform(valid
-# print(train_vectors.shape[0])
+
 import numpy as np
 
 x_train = train_vectors
-# x_test = test_vectors
-# x_validation = validation_vectors
-# print(x_train[0])
+
 print(x_train.shape)
 
 X_train = x_train.todense()
 z = z.todense()
-#X_test=z.todense()
-print("12345")
+
 print(X_train.shape)
-# a=[1,2,3]
-# print(a.shape)
-# X_validation=x_validation.todense()
+
 ls1=[]
 ls2=[]
 for i in range(0,2):
@@ -127,8 +119,7 @@ embedding_layer = Embedding(29285 + 1,
 
                             input_length=29285,
                             trainable=True)
-#model.add(Embedding(38946, 100, input_length = 258))
-#print(model.layers[0].get_weights()[0].shape)
+
 convs = []
 filter_sizes = [1,2,3]
 sequence_input = Input(shape=(29285,), dtype='int32')
@@ -141,10 +132,7 @@ for fsz in filter_sizes:
     convs.append(l_pool)
 l_merge = Merge(mode='concat', concat_axis=1)(convs)
 print(l_merge.shape)
-#l_cov1= Conv1D(128, 1, activation='relu')(l_merge)
-#l_pool1 = MaxPooling1D(1)(l_cov1)
-#l_cov2 = Conv1D(128, 1, activation='relu')(l_pool1)
-#l_pool2 = MaxPooling1D(1)(l_cov2)
+
 l_flat = Flatten()(l_merge)
 print(l_flat.shape)
 l_dense = Dense(128, activation='relu')(l_flat)
@@ -157,24 +145,11 @@ model.compile(loss='categorical_crossentropy',
               metrics=['acc'])
 
 print("model fitting - more complex convolutional neural network")
-#model.summary()
-#model.fit(train_data, train_lables,
-         #nb_epoch=2, batch_size=50)
-#model.save('cnn_with_embedding.h5')
 from keras.models import load_model
-#model1=load_model('cnn_with_embedding.h5')
-#model1=load_model('cnn_with_embedding.h5')
-#model1.compile(loss='binary_crossentropy',
-              #optimizer = 'adam',
-             # metrics=["accuracy"])
+
 model.fit(X_train, y_train,
           nb_epoch=5, batch_size=50)
 a=model.predict(z,batch_size=50)
 from sklearn.externals import joblib
 joblib.dump(a, 'results_cnn_now.joblib')
-#print(a)
-#for b in a:
-    #print(b)
-#print(a.shape)
-#model1=model.save('cnn_without_pretraining_sentiment_insta.h5')
-#model1=load_model('cnn_with_embedding.h5')
+
