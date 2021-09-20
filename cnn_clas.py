@@ -85,9 +85,6 @@ x_train = train_vectors
 # x_validation = validation_vectors
 # print(x_train[0])
 print(x_train.shape)
-# print (x_test.shape)
-# print (x_validation.shape)
-# print (x_train.todense())
 
 X_train = x_train.todense()
 z = z.todense()
